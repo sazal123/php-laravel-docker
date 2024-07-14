@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\File;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,15 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/webhook', [\App\Http\Controllers\FacebookWebhookController::class, 'handleWebhook']);
+Route::get('/logs', function () {
+    $path = storage_path('logs/laravel.log');
+
+    if (!File::exists($path)) {
+        abort(404, 'Log file not found.');
+    }
+
+    $content = File::get($path);
+    return \Illuminate\Support\Facades\Response::make(nl2br($content), 200)
+        ->header('Content-Type', 'text/html');
+});
