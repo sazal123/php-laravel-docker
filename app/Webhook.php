@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Webhook extends Model
 {
     use HasFactory;
-    protected $table = 'webhooks';
+    protected $table = 'webhook';
 
     // Define the attributes that are mass assignable
     protected $fillable = ['data'];
