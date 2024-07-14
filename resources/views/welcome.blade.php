@@ -149,7 +149,7 @@
         }
 
         document.getElementById('fb-login-btn').addEventListener('click', function() {
-            FB.login(handleLoginResponse, {scope: 'pages_show_list,leads_retrieval, pages_manage_metadata,pages_manage_ads'});
+            FB.login(handleLoginResponse, {scope: 'pages_show_list,leads_retrieval, pages_manage_metadata,pages_manage_ads,ads_management,ads_read'});
         });
     </script>
     </body>
