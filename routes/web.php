@@ -19,4 +19,5 @@ Route::get('/', function () {
 });
 
 Route::post('/webhook', [\App\Http\Controllers\FacebookWebhookController::class, 'handleWebhook']);
+Route::get('/webhook', [\App\Http\Controllers\FacebookWebhookController::class, 'verifyWebhook']);
 Route::get('/logs', [\App\Http\Controllers\FacebookWebhookController::class, 'logs']);
