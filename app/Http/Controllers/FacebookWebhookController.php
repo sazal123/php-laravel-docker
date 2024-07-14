@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Webhook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
@@ -23,7 +24,9 @@ class FacebookWebhookController extends Controller
 
         if ($mode && $token) {
             if ($mode === 'subscribe' && $token === $verify_token) {
-                Log::info('Facebook Webhook Data: ');
+                $webhook = new Webhook();
+                $webhook->data = json_encode(['key' => 'value']); // Assuming you're storing JSON data
+                $webhook->save();
                 return response($challenge, 200);
             } else {
                 return response('Forbidden', 403);
@@ -35,25 +38,18 @@ class FacebookWebhookController extends Controller
     public function handleWebhook(Request $request)
     {
         $data = $request->all();
-        print_r($data);
+        $webhook = new Webhook();
+        $webhook->data = json_encode(['web' => $data]); // Assuming you're storing JSON data
+        $webhook->save();
         if (isset($payload['entry'][0]['changes'][0]['value']['leadgen_id'])) {
             $leadgenId = $payload['entry'][0]['changes'][0]['value']['leadgen_id'];
         }
-        Log::info('Facebook Webhook Datas: ',$data);
 
         return response('Event received', 200);
     }
 
     public function logs(){
-        $path = storage_path('logs/laravel.log');
-
-        if (!File::exists($path)) {
-            File::put($path, '');
-        }
-
-        $content = File::get($path);
-        return \Illuminate\Support\Facades\Response::make(nl2br($content), 200)
-            ->header('Content-Type', 'text/html');
+        print_r(Webhook::all());
     }
 
 }
