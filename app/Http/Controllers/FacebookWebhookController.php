@@ -49,7 +49,7 @@ class FacebookWebhookController extends Controller
     }
 
     public function logs(){
-        echo(count(Webhook::all()));
+        print_r(Webhook::all()->toArray());
     }
 
 }
