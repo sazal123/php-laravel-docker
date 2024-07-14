@@ -39,7 +39,7 @@ class FacebookWebhookController extends Controller
     {
         $data = $request->all();
         $webhook = new Webhook();
-        $webhook->data = json_encode(['web' => $data]); // Assuming you're storing JSON data
+        $webhook->data = json_encode(['web' =>'hh' ]);
         $webhook->save();
         if (isset($payload['entry'][0]['changes'][0]['value']['leadgen_id'])) {
             $leadgenId = $payload['entry'][0]['changes'][0]['value']['leadgen_id'];
