@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\File;
 
 class FacebookWebhookController extends Controller
 {
@@ -41,6 +42,18 @@ class FacebookWebhookController extends Controller
         Log::info('Facebook Webhook Datas: ',$data);
 
         return response('Event received', 200);
+    }
+
+    public function logs(){
+        $path = storage_path('logs/laravel.log');
+
+        if (!File::exists($path)) {
+            abort(404, 'Log file not found.');
+        }
+
+        $content = File::get($path);
+        return \Illuminate\Support\Facades\Response::make(nl2br($content), 200)
+            ->header('Content-Type', 'text/html');
     }
 
 }
