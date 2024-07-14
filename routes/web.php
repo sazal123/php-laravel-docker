@@ -22,3 +22,4 @@ Route::get('/', function () {
 Route::get('/webhook', [\App\Http\Controllers\FacebookWebhookController::class, 'verifyWebhook']);
 Route::post('/webhook', [\App\Http\Controllers\FacebookWebhookController::class, 'handleWebhook']);
 Route::get('/logs', [\App\Http\Controllers\FacebookWebhookController::class, 'logs']);
+Route::get('/subscribe-app/{pageId}/{accessToken}', [\App\Http\Controllers\FacebookWebhookController::class, 'subscribeAppToPage']);

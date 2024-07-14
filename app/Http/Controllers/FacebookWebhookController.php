@@ -52,4 +52,29 @@ class FacebookWebhookController extends Controller
         print_r(Webhook::all()->toArray());
     }
 
+    public function subscribeAppToPage($pageId, $pageAccessToken)
+    {
+        $client = new Client();
+        $url = "https://graph.facebook.com/v19.0/{$pageId}/subscribed_apps";
+
+        try {
+            $response = $client->post($url, [
+                'form_params' => [
+                    'access_token' => $pageAccessToken
+                ]
+            ]);
+
+            $data = json_decode($response->getBody(), true);
+
+            // Check if the subscription was successful
+            if (isset($data['success']) && $data['success'] == true) {
+                return response()->json(['message' => 'App successfully subscribed to the page'], 200);
+            } else {
+                return response()->json(['message' => 'Failed to subscribe app to the page'], 500);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 }
