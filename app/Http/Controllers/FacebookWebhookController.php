@@ -38,11 +38,11 @@ class FacebookWebhookController extends Controller
     public function handleWebhook(Request $request)
     {
         $data = $request->all();
-        $webhook = new Webhook();
-        $webhook->data = json_encode(['web' =>'hh' ]);
-        $webhook->save();
         if (isset($payload['entry'][0]['changes'][0]['value']['leadgen_id'])) {
             $leadgenId = $payload['entry'][0]['changes'][0]['value']['leadgen_id'];
+            $webhook = new Webhook();
+            $webhook->data = json_encode(['web' =>$leadgenId ]);
+            $webhook->save();
         }
 
         return response('Event received', 200);
