@@ -48,7 +48,7 @@ class FacebookWebhookController extends Controller
         $path = storage_path('logs/laravel.log');
 
         if (!File::exists($path)) {
-            abort(404, 'Log file not found.');
+            File::put($path, '');
         }
 
         $content = File::get($path);
